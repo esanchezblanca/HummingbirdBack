@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Task.init({
         year_id: DataTypes.INTEGER,
-        name: DataTypes.STRING,
+        title: DataTypes.STRING,
         description: DataTypes.STRING,
     }, {
         sequelize, 
