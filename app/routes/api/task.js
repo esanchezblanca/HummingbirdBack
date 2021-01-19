@@ -3,19 +3,19 @@ const router = require('express').Router();
 const { Task } = require('../../../db');
 
 
-//Método get de usuarios
+//Mostrar todas las tareas
 router.get('/', async (req, res) =>{
     const task = await Task.findAll();
     res.json(task);
 });
 
-//REGISTER
+//Insertar nueva tarea
 router.post('/', async (req, res) =>{
     const task = await Task.create(req.body);
     res.json(task);
 });
 
-//modify user
+//Modificar tarea
 router.put('/:taskId', async (req, res) =>{
     await Task.update(req.body, {
         where: { id: req.params.taskId }
@@ -23,7 +23,7 @@ router.put('/:taskId', async (req, res) =>{
     res.json({ success: 'Task modified'})
 });
 
-//Delete user
+//Eliminar tarea
 
 router.delete('/:taskId', async (req, res) =>{
     await Task.destroy({

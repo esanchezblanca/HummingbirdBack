@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 
 const UserModel = require('./app/models/user');
-// const RoleModel = require('./app/models/role');
-// const YearModel = require('./app/models/year');
+const RoleModel = require('./app/models/role');
+const YearModel = require('./app/models/year');
 // // const NoteModel = require('./models/notes');
 const TaskModel = require('./app/models/task');
 
@@ -13,8 +13,8 @@ const sequelize = new Sequelize('X9yANehLsD', 'X9yANehLsD', 'lNoMyt6pUW', {
 });
 
 const User = UserModel(sequelize, Sequelize);
-// const Role = RoleModel(sequelize, Sequelize);
-// const Year = YearModel(sequelize, Sequelize);
+const Role = RoleModel(sequelize, Sequelize);
+const Year = YearModel(sequelize, Sequelize);
 // const Note = NoteModel(sequelize, Sequelize);
 const Task = TaskModel(sequelize, Sequelize);
 
@@ -25,8 +25,8 @@ sequelize.sync({ force: false})
 });
 
 module.exports ={
-    // Role,
+    Role,
     User,
-    // Year,
+    Year,
     Task
 }

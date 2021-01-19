@@ -1,10 +1,19 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const { User } = require('../../../db');
-
+const { check, validationResult } = require('express-validator');
 
 //Register
-router.post('/register', (req, res)=>{
+router.post('/register', [
+    check('name', 'El nombre es obligatorio').not().isEmpty(),
+    check('password', 'La contraseña es obligatoria').not().isEmpty(),
+    check('mail', 'El mail es obligatorio').isEmail()
+] , async (req, res)=>{
+
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errores: errors.array() })
+        }
 
         req.body.password = bcrypt.hashSync(req.body.password, 10);
         const user = User.create(req.body);
