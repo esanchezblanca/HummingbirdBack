@@ -17,10 +17,15 @@ router.post('/', async (req, res) =>{
 
 //Modificar tarea
 router.put('/:taskId', async (req, res) =>{
-    await Task.update(req.body, {
-        where: { id: req.params.taskId }
+    const task = await Task.update(req.body, {
+        where: { id: req.params.taskId, user_id: req.body.user_id }
     });
-    res.json({ success: 'Tarea modificada'})
+    if(task == 0){
+        res.json({message: 'Error al modificar la tarea', status: 401})
+    }else{
+        res.json({ success: 'Tarea modificada', status: 200})
+    }
+    
 });
 
 //Eliminar tarea
@@ -30,7 +35,7 @@ router.delete('/:taskId', async (req, res) =>{
         where: {id: req.params.taskId}
     });
 
-    res.json({ success: 'Tarea eliminada'});
+    res.json({ success: 'Tarea eliminada', status: 200});
 });
 
 module.exports = router;

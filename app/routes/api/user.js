@@ -6,6 +6,8 @@ const { check, validationResult } = require('express-validator');
 //Importación de librerías para crear el token y simplificar la intro. de fechas
 const moment = require('moment');
 const jwt = require('jwt-simple');
+const middleware = require('../../middlewares/middleware');
+const user = require('../../models/user');
 
 
 
@@ -42,29 +44,29 @@ router.post('/Login', async (req, res) =>{
         if(sameMail){
             res.json({ success: createToken(user) })
         }else{
-            res.json({ error: 'Las credenciales no son correctas'})
+            res.json({ error: 'Las credenciales no son correctas', status: 401})
         }
     }else{
-        res.json({ error: 'Las credenciales no son correctas'})
+        res.json({ error: 'Las credenciales no son correctas', status: 401})
     }
 });
 
 
-//Creación del token
-const createToken = (user) => {
-    const payload = {
-        userId: user.id,
-        createdAt: moment().unix(),
-        expiredAt: moment().add(10, 'minutes').unix()
-    }
-    return jwt.encode(payload, 'secret');
-}
 
 //Get
-router.get('/', async (req, res) =>{
-    const users = await User.findAll();
+//Cuando se llame a get no mostrará contraseñas ni siquiera encriptadas
+router.get('/',  middleware.checkToken, async (req, res) =>{
+    const users = await User.findAll(
+        {
+            attributes: {
+                exclude: ['password']
+            }
+        }
+    );
     res.json(users);
 });
+
+
 
 //Modify user
 router.put('/:userId', async (req, res) =>{
@@ -72,17 +74,33 @@ router.put('/:userId', async (req, res) =>{
     await User.update(req.body, {
         where: { id: req.params.userId }
     });
-    res.json({ success: 'Usuario modificado con éxito'})
+    res.json({ success: 'Usuario modificado con éxito', status: 200})
 });
+
+
 
 //Delete user
 
-router.delete('/:userId', async (req, res) =>{
+router.delete('/:userId',  middleware.checkToken,async (req, res) =>{
     await User.destroy({
         where: {id: req.params.userId}
     });
 
-    res.json({ success: 'Usuario eliminado'});
+    res.json({ success: 'Usuario eliminado', status: 200});
 });
+
+
+
+//Creación del token
+const createToken = (user) => {
+    const payload = {
+        userId: user.id,
+        createdAt: moment().unix(),
+        expiredAt: moment().add(30, 'minutes').unix()
+    }
+    return jwt.encode(payload, 'secret');
+}
+
+
 
 module.exports = router;
