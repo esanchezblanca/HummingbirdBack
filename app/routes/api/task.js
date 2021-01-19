@@ -20,7 +20,7 @@ router.put('/:taskId', async (req, res) =>{
     await Task.update(req.body, {
         where: { id: req.params.taskId }
     });
-    res.json({ success: 'Task modified'})
+    res.json({ success: 'Tarea modificada'})
 });
 
 //Eliminar tarea
@@ -30,7 +30,7 @@ router.delete('/:taskId', async (req, res) =>{
         where: {id: req.params.taskId}
     });
 
-    res.json({ success: 'Task deleted'});
+    res.json({ success: 'Tarea eliminada'});
 });
 
 module.exports = router;
