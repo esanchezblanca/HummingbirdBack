@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+
 //Router básico
 const apiRouter = require('./app/routes/api');
 
