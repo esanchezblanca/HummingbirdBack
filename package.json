@@ -8,6 +8,7 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-validator": "^6.9.2",
+    "heroku": "^7.47.11",
     "jwt-simple": "^0.5.6",
     "moment": "^2.29.1",
     "mysql2": "^2.2.5",
@@ -15,7 +16,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ."
   },
   "keywords": [],
   "author": "",
