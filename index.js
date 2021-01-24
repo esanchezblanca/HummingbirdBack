@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
+const PORT = process.env.PORT || 3000
 //Router básico
 const apiRouter = require('./app/routes/api');
 
@@ -21,6 +21,6 @@ app.use('/api', apiRouter);
 
 
 //Determinamos en qué puerto se levanta
-app.listen(3000,() => {
+app.listen(PORT,() => {
     console.log('Server levantado')
 });
