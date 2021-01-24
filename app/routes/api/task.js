@@ -1,12 +1,21 @@
 const router = require('express').Router();
 const { Task } = require('../../../db');
-
+const { Comment } = require('../../../db');
 
 //Mostrar todas las tareas
 
 router.get('/', async (req, res) =>{
     const task = await Task.findAll();
     res.json(task);
+});
+
+//Mostrar tareas por id
+
+router.get('/:id', async (req, res) =>{
+    const task = await Task.findOne(req.params);
+    const comments = await Comment.findAll({
+        where: { task_id: task.id}});
+    res.json({task: task, comments: comments});
 });
 
 

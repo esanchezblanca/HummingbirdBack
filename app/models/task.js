@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
         static associate (models) {
             this.belongsTo(models.Year);
             this.belongsTo(models.User);
+            this.hasMany(models.Comment, {
+                foreignKey: 'task_id'});
         }
     };
 
